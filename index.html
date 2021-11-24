@@ -1,25 +1,39 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Index_1</title>
-        <script src="./echarts-5.2.2/dist/echarts.js"></script>
-        <script src="./jquery.min.js"></script>
-    <body>
-        <div id="main" style="height: 500px; width: 600px; "></div>
-        <div id="other" style="height: 500px; width: 600px;"></div>
-        <div id="squarified" style="height: 500px; width: 600px; top: 0px;"></div>
-        <script src="./test.js"></script>
-        <script src="./squarified.js"></script>
-        <script>
-            // $.ajax({
-            //     url: "./squarified_data.json",
-            //     type: "GET",
-            //     dataType: "json",
-            //     success: function(data){},
-            //     async: false
-            // })
-            // result = $.parseJSON(a["responseText"])
-        </script>
-    </body>
+
+<head>
+    <meta charset="utf-8">
+    <title>多视图可视化</title>
+    <script src="./js/echarts.min.js"></script>
+    <script src="./js/jquery.min.js""></script>
+    <script src="./js/huji.js"></script>
+    <script src="./js/kemu.js"></script>
+    <script src="./js/data.js"></script>
+    <script>
+        var _width = $(window).width();
+        var _height = $(window).height();
+        var filter_condition = {"年份": [1371, 1610], "户籍":["民籍", "军籍", "监籍", "官籍", "匠籍", "灶籍", "站籍"], "科目":["诗经", "书经", "易经", "礼记", "春秋"]};
+    </script>
+    <script src="./js/fliter_data.js"></script>
+
+<body>
+    <div id="main" style="position: absolute;"></div>
+    <div id="kemu" style="position: absolute;"></div>
+    <div id="squarified" style="position: absolute;"></div>
+    <div id="pie1" style="position: absolute;"></div>
+    <div id="pie2" style="position: absolute;"></div>
+    <script>
+        String.prototype.format = function () {
+            var args = arguments;
+            return this.replace(/\{(\d+)\}/g, function (m, i) {
+                return args[i];
+            });
+        };
+    </script>
+    <script src="./js/huji_graph.js"></script>
+    <script src="./js/kemu_graph.js"></script>
+    <script src="./js/squarified.js"></script>
+    <script src="./js/pie_graph.js"></script>
+</body>
+
 </html>
