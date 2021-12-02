@@ -304,7 +304,16 @@
                     arr.splice(index, 1);
             })
         }
+        let dataZoom = kemu_graph.getModel().option.dataZoom[0];
+        let dataset = kemu_graph.getModel().option.dataset[0]['source'];
+        let starttime =  dataZoom.startValue+1;
+        let endtime = dataZoom.endValue+1;
+        filter_condition["年份"] = [parseInt(dataset[starttime][0]), parseInt(dataset[endtime][0])];
+        
         let left_data = filter_data(data, filter_condition);
+        let filter_1 = filter_condition;
+        filter_1['年份'] = [1371, 1610];
+        let left_data_1 = filter_data(data, filter_1);
         pie_graph_2.setOption({
             series: [{
                 data: construct_pie_data(left_data, "科目"),
@@ -323,7 +332,12 @@
         })
         kemu_graph.setOption({
             dataset: {
-                source: construct_dataset(left_data, "科目"),
+                source: construct_dataset(left_data_1, "科目"),
+            }
+        })
+        myChart.setOption({
+            dataset: {
+                source: construct_dataset(left_data_1, "户籍"),
             }
         })
     })

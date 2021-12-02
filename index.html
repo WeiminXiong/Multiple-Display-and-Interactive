@@ -12,11 +12,17 @@
     <script>
         var _width = $(window).width();
         var _height = $(window).height();
-        var filter_condition = {"年份": [1371, 1610], "户籍":["民籍", "军籍", "监籍", "官籍", "匠籍", "灶籍", "站籍"], "科目":["诗经", "书经", "易经", "礼记", "春秋"]};
+        var filter_condition = {"年份": [1371, 1610], "户籍":["民籍", "军籍", "监籍", "官籍", "匠籍", "灶籍", "站籍"], "科目":["诗经", "书经", "易经", "礼记", "春秋"], "地名":""};
     </script>
     <script src="./js/fliter_data.js"></script>
-
+    <!-- <style type="text/css">
+        body{background:rgba(0, 204, 255, 0.082)} 
+    </style> -->
+</head>
 <body>
+    <p style="font-size: 15px;">使用说明：1、拖动dataZoom进行时间维度筛选；2、选择折线图上方的图例来对数据的属性筛选；3、图表右上角toolbox中选择图表形式或保存；4、单击等方树图区域进行细节查看，双击区域以地区为属性
+        对数据筛选；并可以点击下方黑色按钮撤回选项到指定地区；5、以上筛选均可同时进行
+    </p>
     <div id="main" style="position: absolute;"></div>
     <div id="kemu" style="position: absolute;"></div>
     <div id="squarified" style="position: absolute;"></div>

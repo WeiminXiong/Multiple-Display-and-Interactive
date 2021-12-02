@@ -4,7 +4,7 @@
     var kemu_div = document.getElementById("kemu")
     kemu_div.style.height = "{0}px".format(_height / 2-10);
     kemu_div.style.width = "{0}px".format(_width / 2 - 10);
-    kemu_div.style.top = "{0}px".format(_height / 2);
+    kemu_div.style.top = "{0}px".format(_height / 2 + 20);
     var kemu_graph = echarts.init(kemu_div)
     var option = {
         animation: true,
@@ -287,7 +287,16 @@
                     arr.splice(index, 1);
             })
         }
+        let dataZoom = kemu_graph.getModel().option.dataZoom[0];
+        let dataset = kemu_graph.getModel().option.dataset[0]['source'];
+        let starttime =  dataZoom.startValue+1;
+        let endtime = dataZoom.endValue+1;
+        filter_condition["年份"] = [parseInt(dataset[starttime][0]), parseInt(dataset[endtime][0])];
+        
         let left_data = filter_data(data, filter_condition);
+        let filter_1 = filter_condition;
+        filter_1['年份'] = [1371, 1610];
+        let left_data_1 = filter_data(data, filter_1);
         pie_graph_2.setOption({
             series: [{
                 data: construct_pie_data(left_data, "科目"),
@@ -306,17 +315,22 @@
         })
         myChart.setOption({
             dataset: {
-                source: construct_dataset(left_data, "户籍"),
+                source: construct_dataset(left_data_1, "户籍"),
+            }
+        })
+        kemu_graph.setOption({
+            dataset: {
+                source: construct_dataset(left_data_1, "科目"),
             }
         })
     })
 
     kemu_graph.on("dataZoom", function (params) {
-        let start = params.start;
-        let end = params.end;
-        let start_year = 1371 + (1610 - 1371) * start / 100;
-        let end_year = 1371 + (1610 - 1371) * end / 100;
-        filter_condition["年份"] = [start_year, end_year];
+        let dataZoom = kemu_graph.getModel().option.dataZoom[0];
+        let dataset = kemu_graph.getModel().option.dataset[0]['source'];
+        let starttime =  dataZoom.startValue+1;
+        let endtime = dataZoom.endValue+1;
+        filter_condition["年份"] = [parseInt(dataset[starttime][0]), parseInt(dataset[endtime][0])];
         let left_data = filter_data(data, filter_condition);
         squarified_chart.setOption({
             series: [{

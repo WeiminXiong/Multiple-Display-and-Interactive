@@ -12,15 +12,26 @@ function filter_data(data, filter) {
                         break;
                     }
                 } else {
-                    if (data[item][key] < year[0] || data[item][key] > year[1]) {
+                    if (parseInt(data[item][key]) < year[0] || parseInt(data[item][key]) > year[1]) {
                         tag = false;
                         break;
                     }
                 }
             } else {
-                if (!(filter[key].includes(data[item][key]))) {
-                    tag = false;
-                    break;
+                if (key == "地名") {
+                    if (filter[key] == "")
+                        continue;
+                    else {
+                        if (!(filter[key] == data[item]["司"] || filter[key] == data[item]["府"] || filter[key] == data[item]["县"])) {
+                            tag = false;
+                            break;
+                        }
+                    }
+                } else {
+                    if (!(filter[key].includes(data[item][key]))) {
+                        tag = false;
+                        break;
+                    }
                 }
             }
         }
@@ -127,15 +138,15 @@ function construct_dataset(data_list, flag) {
     let year_dict = {};
     let legend;
     if (flag == "户籍") {
-        legend = ["年份","民籍", "军籍", "监籍", "官籍", "匠籍", "灶籍", "站籍"];
+        legend = ["年份", "民籍", "军籍", "监籍", "官籍", "匠籍", "灶籍", "站籍"];
     }
     if (flag == "科目") {
-        legend = ["年份","诗经", "书经", "易经", "礼记", "春秋"];
+        legend = ["年份", "诗经", "书经", "易经", "礼记", "春秋"];
     }
     let attr_dict = {};
     for (let i = 0; i < legend.length; ++i)
         attr_dict[legend[i]] = i;
-    for (let i = 0; i < data_list.length; ++i){
+    for (let i = 0; i < data_list.length; ++i) {
         let year = data_list[i]['年份'];
         let attr = data_list[i][flag];
         if (!(year in year_dict)) {
@@ -145,13 +156,11 @@ function construct_dataset(data_list, flag) {
             for (let i = 0; i < legend.length; ++i)
                 dataset[year_dict[year]].push(0);
             dataset[year_dict[year]][attr_dict[attr]] += 1;
-        }
-        else {
+        } else {
             dataset[year_dict[year]][attr_dict[attr]] += 1;
         }
     }
     dataset.sort();
     dataset.unshift(legend);
-    console.log(dataset)
     return dataset;
 }
